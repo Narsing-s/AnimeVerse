@@ -1,0 +1,1 @@
+INSERT INTO gallery_items(title,image,anime_id,published) SELECT 'Forest light','https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82',id,true FROM anime WHERE title='My Neighbor Totoro'
