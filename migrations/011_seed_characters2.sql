@@ -1,0 +1,1 @@
+INSERT INTO characters(name,role,description,image,anime_id) SELECT 'Howl','Wizard','A brilliant, dramatic wizard whose heart is at the center of a moving magical story.','https://images.unsplash.com/photo-1577083552431-6e5fd01988b5?auto=format&fit=crop&w=700&q=82',id FROM anime WHERE title='Howl''s Moving Castle'
