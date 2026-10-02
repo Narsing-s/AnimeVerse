@@ -1,0 +1,1 @@
+INSERT INTO characters(name,role,description,image,anime_id) SELECT 'Totoro','Forest spirit','A beloved forest spirit who becomes part of two sisters'' countryside adventure.','https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=700&q=82',id FROM anime WHERE title='My Neighbor Totoro'
