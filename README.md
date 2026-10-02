@@ -38,11 +38,22 @@ The repository also includes an MIT license, contribution guide, security policy
 
 ## Deployment
 
-The frontend is plain HTML/CSS/JavaScript and can be served by any static host. The current API files still use the Hatchable runtime SDK for authentication and PostgreSQL access. The UI, migrations, documentation, and static assets are fully stored in GitHub, but the backend is not yet standalone; migrate `api/` to the target platform's database/auth layer before removing the remaining Hatchable runtime dependency.
+The frontend is plain HTML/CSS/JavaScript and can be served by any static host. The backend is now standalone: PostgreSQL is accessed through `pg`, authentication uses signed HTTP-only JWT cookies, and admin endpoints enforce the database role. Configure `DATABASE_URL` and a strong `JWT_SECRET` before deployment. The repository no longer requires the Hatchable runtime.
 
 ## Content and artwork
 
 Starter artwork uses remote image URLs for demonstration. Replace those URLs with assets you are licensed to use before production publication.
+
+## Local setup
+
+1. Install Node.js 20+.
+2. Copy `.env.example` to `.env` and set `DATABASE_URL` and a strong `JWT_SECRET`.
+3. Run migrations `001` through `020` in order against PostgreSQL.
+4. Run `npm install` and `npm test`.
+5. Run with Vercel CLI using `vercel dev`, or deploy using the included `vercel.json`.
+6. The health endpoint is `/api/health`.
+
+The first account is a normal user. Promote an administrator directly in PostgreSQL with `UPDATE users SET role='admin' WHERE email='your-admin@example.com';`.
 
 ## License
 
