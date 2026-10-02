@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS trailers (id uuid PRIMARY KEY DEFAULT gen_random_uuid(),title text NOT NULL,youtube_url text DEFAULT '',description text DEFAULT '',anime_id uuid REFERENCES anime(id) ON DELETE SET NULL,published boolean DEFAULT true,created_at timestamptz DEFAULT now(),updated_at timestamptz DEFAULT now())
