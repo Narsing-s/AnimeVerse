@@ -57,4 +57,4 @@ The first account is a normal user. Promote an administrator directly in Postgre
 
 ## License
 
-No license has been added yet. Add the license that matches the project's intended distribution before accepting external contributions.
+AnimeVerse is released under the MIT License. See `LICENSE`.
