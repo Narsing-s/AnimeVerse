@@ -1,0 +1,1 @@
+INSERT INTO trailers(title,youtube_url,description,anime_id,published) SELECT 'Howl''s Moving Castle — Trailer','https://www.youtube.com/results?search_query=Howls+Moving+Castle+official+trailer','Watch the official trailer search results on YouTube.',id,true FROM anime WHERE title='Howl''s Moving Castle'
