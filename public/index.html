@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="AnimeVerse — discover anime movies, Ghibli worlds, characters, trailers and art.">
+<title>AnimeVerse — Discover your next world</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="ambient a1"></div><div class="ambient a2"></div>
+<header class="nav">
+  <a class="brand" href="#home"><span class="brand-mark">✦</span><span>Anime<span>Verse</span></span></a>
+  <nav class="links">
+    <a href="#anime">Anime</a><a href="#characters">Characters</a><a href="#trailers">Trailers</a><a href="#gallery">Gallery</a>
+  </nav>
+  <div class="nav-actions"><button id="searchBtn" class="icon-btn" aria-label="Search">⌕</button><button id="favNav" class="pill-btn">♡ Favorites <b id="favCount">0</b></button><a href="/admin/" class="admin-link">Admin</a></div>
+</header>
+
+<main id="home">
+<section class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">ANIME DISCOVERY, REIMAGINED</div>
+    <h1>Find the worlds<br><em>worth getting lost in.</em></h1>
+    <p>Explore beloved Ghibli films, anime movies, unforgettable characters, trailers and visual art — all in one cinematic universe.</p>
+    <div class="hero-actions"><a class="primary" href="#anime">Explore Anime <span>→</span></a><button class="ghost" id="randomBtn">Surprise me ✦</button></div>
+  </div>
+  <div class="hero-art">
+    <div class="moon"></div><div class="cloud c1"></div><div class="cloud c2"></div>
+    <div class="hero-card"><div class="poster-sim">✦</div><div><small>FEATURED WORLD</small><strong>Whispered skies</strong><span>Ghibli-inspired discovery</span></div></div>
+  </div>
+</section>
+
+<section class="section" id="anime"><div class="section-head"><div><span class="kicker">CURATED WORLDS</span><h2>Anime to remember</h2></div><div class="filters"><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="Ghibli">Ghibli</button><button class="filter" data-filter="Movie">Movies</button></div></div><div id="animeGrid" class="grid"></div></section>
+
+<section class="split-section" id="characters">
+<div class="section-head"><div><span class="kicker">ICONIC PEOPLE</span><h2>Characters with a story</h2></div></div><div id="characterGrid" class="character-grid"></div>
+</section>
+
+<section class="section" id="trailers"><div class="section-head"><div><span class="kicker">WATCH</span><h2>Latest trailers</h2></div></div><div id="trailerGrid" class="trailer-grid"></div></section>
+
+<section class="section" id="gallery"><div class="section-head"><div><span class="kicker">VISUAL WORLDS</span><h2>The gallery</h2></div></div><div id="galleryGrid" class="gallery-grid"></div></section>
+</main>
+
+<div id="searchModal" class="modal hidden"><div class="modal-panel"><button class="close" id="closeSearch">×</button><span class="kicker">SEARCH ANIMEVERSE</span><h2>What are you looking for?</h2><input id="searchInput" class="search-input" placeholder="Anime, character, genre..." autofocus><div id="searchResults" class="search-results"></div></div></div>
+<div id="detailModal" class="modal hidden"><div class="modal-panel detail"><button class="close" id="closeDetail">×</button><div id="detailContent"></div></div></div>
+<div id="toast" class="toast"></div>
+<footer><div class="brand"><span class="brand-mark">✦</span><span>Anime<span>Verse</span></span></div><p>Built for people who love animated worlds.</p><span>© 2026 AnimeVerse</span></footer>
+<script src="/app.js"></script>
+</body>
+</html>
