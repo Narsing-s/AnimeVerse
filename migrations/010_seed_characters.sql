@@ -1,0 +1,1 @@
+INSERT INTO characters(name,role,description,image,anime_id) SELECT 'Chihiro Ogino','Protagonist','A determined child who grows through courage and compassion in a spirit world.','https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=700&q=82',id FROM anime WHERE title='Spirited Away'
