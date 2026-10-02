@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS characters (id uuid PRIMARY KEY DEFAULT gen_random_uuid(),name text NOT NULL,role text DEFAULT '',description text DEFAULT '',image text DEFAULT '',anime_id uuid REFERENCES anime(id) ON DELETE SET NULL,created_at timestamptz DEFAULT now(),updated_at timestamptz DEFAULT now())
