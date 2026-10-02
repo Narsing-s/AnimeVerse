@@ -32,9 +32,13 @@ AnimeVerse is a cinematic anime discovery application for anime movies, Ghibli t
 
 The `migrations/` directory contains the complete database schema and starter catalog. Run migrations in filename order when moving the application to a PostgreSQL-backed runtime.
 
+## Repository quality
+
+The repository also includes an MIT license, contribution guide, security policy, environment template, PWA manifest, and a friendly 404 page.
+
 ## Deployment
 
-The frontend is plain HTML/CSS/JavaScript and can be served by any static host. The API files currently use the Hatchable runtime SDK for authentication and PostgreSQL access, so a deployment outside Hatchable requires replacing those runtime calls with the target platform's authentication/database layer.
+The frontend is plain HTML/CSS/JavaScript and can be served by any static host. The current API files still use the Hatchable runtime SDK for authentication and PostgreSQL access. The UI, migrations, documentation, and static assets are fully stored in GitHub, but the backend is not yet standalone; migrate `api/` to the target platform's database/auth layer before removing the remaining Hatchable runtime dependency.
 
 ## Content and artwork
 
