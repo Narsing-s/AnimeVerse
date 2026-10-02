@@ -1,0 +1,1 @@
+INSERT INTO gallery_items(title,image,anime_id,published) SELECT 'Night glow','https://images.unsplash.com/photo-1534791547706-5d5a2d4ad4d0?auto=format&fit=crop&w=1200&q=82',id,true FROM anime WHERE title='Your Name'
