@@ -1,0 +1,1 @@
+INSERT INTO trailers(title,youtube_url,description,anime_id,published) SELECT 'Spirited Away — Trailer','https://www.youtube.com/results?search_query=Spirited+Away+official+trailer','Watch the official trailer search results on YouTube.',id,true FROM anime WHERE title='Spirited Away'
