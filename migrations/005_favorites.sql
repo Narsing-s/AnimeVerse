@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS favorites (id uuid PRIMARY KEY DEFAULT gen_random_uuid(),user_id text NOT NULL,content_type text NOT NULL,content_id uuid NOT NULL,created_at timestamptz DEFAULT now(),UNIQUE(user_id,content_type,content_id))
