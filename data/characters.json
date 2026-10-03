@@ -1,0 +1,7 @@
+[
+{"id":1,"name":"Chihiro Ogino","role":"Spirited Away","description":"A determined girl who grows through an extraordinary journey in the spirit world.","image":"https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=700&q=85","anime_id":1},
+{"id":2,"name":"Totoro","role":"My Neighbor Totoro","description":"A gentle forest spirit who watches over two sisters.","image":"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=700&q=85","anime_id":2},
+{"id":3,"name":"Ashitaka","role":"Princess Mononoke","description":"A young prince searching for a path between opposing worlds.","image":"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=700&q=85","anime_id":3},
+{"id":4,"name":"Violet","role":"Violet Evergarden","description":"A former soldier discovering the meaning behind human feelings.","image":"https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=700&q=85","anime_id":5},
+{"id":5,"name":"Hodaka","role":"Weathering With You","description":"A runaway teenager who searches for a new beginning in Tokyo.","image":"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=700&q=85","anime_id":6}
+]
