@@ -1,17 +1,13 @@
 {
-  "name": "AnimeVerse",
-  "short_name": "AnimeVerse",
-  "description": "Cinematic anime discovery for movies, characters, trailers, galleries and favorites.",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#07070a",
-  "theme_color": "#07070a",
-  "icons": [
-    {
-      "src": "/icons/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
+  "name":"AnimeVerse — Anime Discovery",
+  "short_name":"AnimeVerse",
+  "description":"A cinematic anime discovery universe for worlds, characters, trailers, art and favorites.",
+  "start_url":"/",
+  "scope":"/",
+  "display":"standalone",
+  "orientation":"portrait-primary",
+  "background_color":"#08090d",
+  "theme_color":"#08090d",
+  "categories":["entertainment","books","lifestyle"],
+  "icons":[{"src":"/icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
