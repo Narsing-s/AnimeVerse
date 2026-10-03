@@ -2,55 +2,83 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="AnimeVerse — discover anime movies, Ghibli worlds, characters, trailers and art.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="AnimeVerse — a cinematic home for anime discovery, characters, trailers, art and your personal favorites.">
+<meta name="theme-color" content="#08090d">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#07070a">
-  <title>AnimeVerse — Discover your next world</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
+<title>AnimeVerse — Discover your next world</title>
 </head>
 <body>
-<div class="ambient a1"></div><div class="ambient a2"></div>
+<div class="ambient a1"></div><div class="ambient a2"></div><div class="ambient a3"></div>
 <header class="nav">
-  <a class="brand" href="#home"><span class="brand-mark">✦</span><span>Anime<span>Verse</span></span></a>
-  <nav class="links">
-    <a href="#anime">Anime</a><a href="#characters">Characters</a><a href="#trailers">Trailers</a><a href="#gallery">Gallery</a>
+  <a class="brand" href="#home" aria-label="AnimeVerse home"><span class="brand-mark">✦</span><span>Anime<span>Verse</span></span></a>
+  <nav class="links" aria-label="Primary navigation">
+    <a href="#anime">Discover</a><a href="#characters">Characters</a><a href="#trailers">Trailers</a><a href="#gallery">Gallery</a>
   </nav>
-  <div class="nav-actions"><button id="searchBtn" class="icon-btn" aria-label="Search">⌕</button><button id="favNav" class="pill-btn">♡ Favorites <b id="favCount">0</b></button><a href="/admin/" class="admin-link">Admin</a></div>
+  <div class="nav-actions">
+    <button id="searchBtn" class="icon-btn" aria-label="Search anime" title="Search (/)">⌕</button>
+    <button id="favNav" class="pill-btn" aria-label="Open favorites">♡ <span>Favorites</span> <b id="favCount">0</b></button>
+    <a href="/admin/" class="admin-link">Studio</a>
+    <button id="menuBtn" class="icon-btn menu-btn" aria-label="Open menu">☰</button>
+  </div>
 </header>
+<div id="mobileMenu" class="mobile-menu hidden"><a href="#anime">Discover</a><a href="#characters">Characters</a><a href="#trailers">Trailers</a><a href="#gallery">Gallery</a><a href="/admin/">Content Studio</a></div>
 
 <main id="home">
 <section class="hero">
   <div class="hero-copy">
-    <div class="eyebrow">ANIME DISCOVERY, REIMAGINED</div>
+    <div class="eyebrow"><span class="live-dot"></span> YOUR ANIME UNIVERSE</div>
     <h1>Find the worlds<br><em>worth getting lost in.</em></h1>
-    <p>Explore beloved Ghibli films, anime movies, unforgettable characters, trailers and visual art — all in one cinematic universe.</p>
-    <div class="hero-actions"><a class="primary" href="#anime">Explore Anime <span>→</span></a><button class="ghost" id="randomBtn">Surprise me ✦</button></div>
+    <p>Discover memorable movies, Ghibli worlds, characters, trailers and visual art — then build a collection that feels like yours.</p>
+    <div class="hero-actions"><a class="primary" href="#anime">Explore worlds <span>→</span></a><button class="ghost" id="randomBtn">Surprise me <span>✦</span></button></div>
+    <div class="hero-stats"><div><strong id="heroAnimeCount">—</strong><span>worlds</span></div><div><strong id="heroCharacterCount">—</strong><span>characters</span></div><div><strong id="heroGalleryCount">—</strong><span>visuals</span></div></div>
   </div>
-  <div class="hero-art">
-    <div class="moon"></div><div class="cloud c1"></div><div class="cloud c2"></div>
-    <div class="hero-card"><div class="poster-sim">✦</div><div><small>FEATURED WORLD</small><strong>Whispered skies</strong><span>Ghibli-inspired discovery</span></div></div>
+  <div class="hero-art" aria-label="AnimeVerse featured world">
+    <div class="hero-noise"></div><div class="moon"></div><div class="starfield">✦　·　✧　　·　✦　·　　✧</div><div class="cloud c1"></div><div class="cloud c2"></div>
+    <div class="hero-orbit"><span>DISCOVER</span><span>•</span><span>REMEMBER</span></div>
+    <div class="hero-card"><div class="poster-sim">✦</div><div><small>FEATURED WORLD</small><strong>Whispered skies</strong><span>Stories that stay after the credits.</span></div><span class="card-arrow">↗</span></div>
   </div>
 </section>
 
-<section class="section" id="anime"><div class="section-head"><div><span class="kicker">CURATED WORLDS</span><h2>Anime to remember</h2></div><div class="filters"><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="Ghibli">Ghibli</button><button class="filter" data-filter="Movie">Movies</button></div></div><div id="animeGrid" class="grid"></div></section>
+<section class="section" id="anime">
+  <div class="section-head"><div><span class="kicker">CURATED WORLDS</span><h2>Anime to remember</h2><p class="section-sub">A living collection, refreshed from your AnimeVerse catalog.</p></div><div class="filters" role="group" aria-label="Filter anime"><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="Ghibli">Ghibli</button><button class="filter" data-filter="Movie">Movies</button><button class="filter" data-filter="Series">Series</button></div></div>
+  <div id="animeGrid" class="grid" aria-live="polite"></div>
+  <div class="section-more"><button id="loadMoreBtn" class="ghost hidden">Show more worlds ↓</button></div>
+</section>
+
+<section class="spotlight section">
+  <div class="spotlight-copy"><span class="kicker">YOUR COLLECTION</span><h2>Keep the worlds<br><em>you don't want to lose.</em></h2><p>Save favorites locally for instant access. Signed-in users can sync them with your account.</p><button id="collectionBtn" class="primary">Open my collection →</button></div>
+  <div class="collection-preview"><div class="preview-ring">♡</div><div><strong id="collectionCount">0</strong><span>saved worlds</span></div><div class="preview-line"></div><small>YOUR TASTE. YOUR UNIVERSE.</small></div>
+</section>
 
 <section class="split-section" id="characters">
-<div class="section-head"><div><span class="kicker">ICONIC PEOPLE</span><h2>Characters with a story</h2></div></div><div id="characterGrid" class="character-grid"></div>
+  <div class="section-head"><div><span class="kicker">ICONIC PEOPLE</span><h2>Characters with a story</h2></div></div>
+  <div id="characterGrid" class="character-grid"></div>
 </section>
 
-<section class="section" id="trailers"><div class="section-head"><div><span class="kicker">WATCH</span><h2>Latest trailers</h2></div></div><div id="trailerGrid" class="trailer-grid"></div></section>
+<section class="section" id="trailers">
+  <div class="section-head"><div><span class="kicker">WATCH</span><h2>Latest trailers</h2><p class="section-sub">Official trailers open in a focused cinematic viewer.</p></div></div>
+  <div id="trailerGrid" class="trailer-grid"></div>
+</section>
 
-<section class="section" id="gallery"><div class="section-head"><div><span class="kicker">VISUAL WORLDS</span><h2>The gallery</h2></div></div><div id="galleryGrid" class="gallery-grid"></div></section>
+<section class="section" id="gallery">
+  <div class="section-head"><div><span class="kicker">VISUAL WORLDS</span><h2>The gallery</h2></div></div>
+  <div id="galleryGrid" class="gallery-grid"></div>
+</section>
 </main>
 
-<div id="searchModal" class="modal hidden"><div class="modal-panel"><button class="close" id="closeSearch">×</button><span class="kicker">SEARCH ANIMEVERSE</span><h2>What are you looking for?</h2><input id="searchInput" class="search-input" placeholder="Anime, character, genre..." autofocus><div id="searchResults" class="search-results"></div></div></div>
-<div id="detailModal" class="modal hidden"><div class="modal-panel detail"><button class="close" id="closeDetail">×</button><div id="detailContent"></div></div></div>
-<div id="toast" class="toast"></div>
-<footer><div class="brand"><span class="brand-mark">✦</span><span>Anime<span>Verse</span></span></div><p>Built for people who love animated worlds.</p><span>© 2026 AnimeVerse</span></footer>
+<div id="searchModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="searchTitle"><div class="modal-panel search-panel"><button class="close" id="closeSearch" aria-label="Close search">×</button><span class="kicker">SEARCH ANIMEVERSE</span><h2 id="searchTitle">What are you looking for?</h2><div class="search-wrap"><span>⌕</span><input id="searchInput" class="search-input" placeholder="Try a title, character or genre…" autocomplete="off"></div><div class="search-hint">Press <kbd>Esc</kbd> to close · <kbd>/</kbd> to search</div><div id="searchResults" class="search-results"></div></div></div>
+<div id="detailModal" class="modal hidden" role="dialog" aria-modal="true"><div class="modal-panel detail"><button class="close" id="closeDetail" aria-label="Close details">×</button><div id="detailContent"></div></div></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<footer><div><div class="brand"><span class="brand-mark">✦</span><span>Anime<span>Verse</span></span></div><p>Built for people who love animated worlds.</p></div><div class="footer-links"><a href="#home">Back to top ↑</a><a href="/admin/">Studio</a><span>© 2026</span></div></footer>
 <script src="/app.js"></script>
+<script>if("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
 </body>
 </html>
