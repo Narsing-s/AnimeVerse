@@ -2,20 +2,20 @@
 
 > **A cinematic anime discovery universe — built to make every world feel worth remembering.**
 
-AnimeVerse is a lightweight, production-oriented anime discovery platform for movies, series, Ghibli worlds, characters, trailers, galleries and personal favorites. It combines a cinematic mobile-first experience with a PostgreSQL-backed content studio and authenticated user features.
+AnimeVerse is a lightweight, production-oriented anime discovery platform for movies, series, Ghibli worlds, characters, trailers, galleries and personal favorites. It combines a cinematic mobile-first experience with a static JSON catalog, local favorites and an offline-friendly content studio.
 
 ## ✨ Product experience
 
 - 🔎 **Instant discovery** — search anime and characters from one focused command-style search.
 - 🎲 **Surprise Me** — jump into a random published world.
 - 🧭 **Smart browsing** — filter by All, Ghibli, Movies and Series.
-- ♡ **Personal collection** — save favorites locally for instant access; signed-in users can sync through the API.
+- ♡ **Personal collection** — save favorites locally for instant access with no account or database.
 - 🎬 **Trailer theater** — open published YouTube trailers in a focused viewer.
 - ✦ **Character universe** — explore character profiles alongside their worlds.
 - 🖼️ **Visual gallery** — responsive masonry-style artwork browsing.
 - 📱 **PWA-ready** — installable shell with offline caching for the core experience.
 - ⚡ **Fast perceived performance** — lazy-loaded media, skeleton states, responsive layouts and reduced-motion support.
-- 🛡️ **Content Studio** — protected admin CRUD with publishing and featured controls.
+- 🛡️ **Content Studio** — local catalog editing with publishing and featured controls; changes stay on the current device.
 - ♿ **Accessible interactions** — semantic navigation, labels, keyboard shortcuts and dialog behavior.
 - 📊 **At-a-glance stats** — live catalog counts on the hero and collection surface.
 
@@ -23,8 +23,8 @@ AnimeVerse is a lightweight, production-oriented anime discovery platform for mo
 
 - **Frontend:** HTML, modern CSS, vanilla JavaScript
 - **Backend:** Vercel Functions / Node.js
-- **Database:** PostgreSQL via `pg`
-- **Authentication:** signed HTTP-only JWT cookies
+- **Catalog:** Static JSON files under `data/`
+- **Storage:** Browser `localStorage` for favorites and local Studio edits
 - **PWA:** Web App Manifest + Service Worker
 - **Deployment:** Vercel-compatible static frontend + API
 - **Runtime:** Node.js 20+
@@ -55,20 +55,14 @@ test/               # automated checks
 2. Copy `.env.example` to `.env`.
 3. Set `DATABASE_URL` and a strong `JWT_SECRET`.
 4. Apply migrations in filename order.
-5. Install dependencies:
-
-```bash
-npm install
-```
-
-6. Run validation:
+2. Run validation:
 
 ```bash
 npm test
 npm run check
 ```
 
-7. Start the local Vercel runtime:
+3. Start the local Vercel runtime:
 
 ```bash
 npx vercel dev
@@ -78,14 +72,10 @@ Then open the local URL shown by Vercel. The health endpoint is `/api/health`.
 
 ## 🔐 Production checklist
 
-- Set a strong, unique `JWT_SECRET`.
-- Use a managed PostgreSQL connection with TLS.
 - Replace demonstration artwork with assets you are licensed to publish.
-- Keep admin credentials out of source control.
-- Review CORS, cookie, CSP and security headers before public launch.
-- Monitor API/database errors and slow queries.
-- Keep the public catalog limited to `published=true`.
-- Add backups and a migration rollback plan for production data.
+- Review CSP, caching and security headers before public launch.
+- Keep the catalog JSON small enough for fast startup and edge caching.
+- Use local Studio editing for personal/demo deployments; source-controlled JSON is the deploy-time catalog.
 
 ## 🗺️ Roadmap
 
