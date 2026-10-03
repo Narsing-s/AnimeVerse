@@ -1,1 +1,0 @@
-export default async function(req,res){if(req.method!=="POST")return res.status(405).json({error:"Method not allowed"});res.setHeader("Set-Cookie","animeverse_token=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0");return res.json({ok:true})}
