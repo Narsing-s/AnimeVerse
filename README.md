@@ -1,60 +1,135 @@
-# AnimeVerse
+# 🌸 AnimeVerse
 
-AnimeVerse is a cinematic anime discovery application for anime movies, Ghibli titles, characters, trailers, galleries, search, favorites, and admin content management.
+> **A cinematic anime discovery universe — built to make every world feel worth remembering.**
 
-## Included
+AnimeVerse is a lightweight, production-oriented anime discovery platform for movies, series, Ghibli worlds, characters, trailers, galleries and personal favorites. It combines a cinematic mobile-first experience with a PostgreSQL-backed content studio and authenticated user features.
 
-- Anime discovery and filtering
-- Ghibli and movie categories
-- Character profiles
-- Trailer section
-- Visual gallery
-- Search
-- Favorites
-- Surprise-me discovery
-- Responsive mobile-first UI
-- Admin content studio
-- Anime, character, trailer, and gallery CRUD
-- Publish/featured content controls
-- PostgreSQL migration and seed files
-- Public content API, favorites API, and protected admin API
+## ✨ Product experience
 
-## Project structure
+- 🔎 **Instant discovery** — search anime and characters from one focused command-style search.
+- 🎲 **Surprise Me** — jump into a random published world.
+- 🧭 **Smart browsing** — filter by All, Ghibli, Movies and Series.
+- ♡ **Personal collection** — save favorites locally for instant access; signed-in users can sync through the API.
+- 🎬 **Trailer theater** — open published YouTube trailers in a focused viewer.
+- ✦ **Character universe** — explore character profiles alongside their worlds.
+- 🖼️ **Visual gallery** — responsive masonry-style artwork browsing.
+- 📱 **PWA-ready** — installable shell with offline caching for the core experience.
+- ⚡ **Fast perceived performance** — lazy-loaded media, skeleton states, responsive layouts and reduced-motion support.
+- 🛡️ **Content Studio** — protected admin CRUD with publishing and featured controls.
+- ♿ **Accessible interactions** — semantic navigation, labels, keyboard shortcuts and dialog behavior.
+- 📊 **At-a-glance stats** — live catalog counts on the hero and collection surface.
 
-- `public/index.html` — main application
-- `public/styles.css` — complete UI
-- `public/app.js` — client application logic
-- `public/admin/` — admin content studio
-- `api/` — backend API routes
-- `migrations/` — database schema and starter content
+## 🏗️ Architecture
 
-## Data
+- **Frontend:** HTML, modern CSS, vanilla JavaScript
+- **Backend:** Vercel Functions / Node.js
+- **Database:** PostgreSQL via `pg`
+- **Authentication:** signed HTTP-only JWT cookies
+- **PWA:** Web App Manifest + Service Worker
+- **Deployment:** Vercel-compatible static frontend + API
+- **Runtime:** Node.js 20+
 
-The `migrations/` directory contains the complete database schema and starter catalog. Run migrations in filename order when moving the application to a PostgreSQL-backed runtime.
+## 🗂️ Structure
 
-## Repository quality
+```
+public/
+  index.html        # cinematic application shell
+  styles.css        # responsive design system
+  app.js            # discovery, search, favorites and interactions
+  sw.js             # offline shell caching
+  manifest.json     # installable PWA metadata
+  admin/            # content studio
+api/
+  content.js        # public catalog API
+  favorites.js      # authenticated favorites API
+  auth/             # authentication endpoints
+  admin/            # protected content management
+  _lib/             # database/auth helpers
+migrations/         # PostgreSQL schema + seed migrations
+test/               # automated checks
+```
 
-The repository also includes an MIT license, contribution guide, security policy, environment template, PWA manifest, and a friendly 404 page.
+## 🚀 Run locally
 
-## Deployment
+1. Install **Node.js 20+**.
+2. Copy `.env.example` to `.env`.
+3. Set `DATABASE_URL` and a strong `JWT_SECRET`.
+4. Apply migrations in filename order.
+5. Install dependencies:
 
-The frontend is plain HTML/CSS/JavaScript and can be served by any static host. The backend is now standalone: PostgreSQL is accessed through `pg`, authentication uses signed HTTP-only JWT cookies, and admin endpoints enforce the database role. Configure `DATABASE_URL` and a strong `JWT_SECRET` before deployment. The repository no longer requires the Hatchable runtime.
+```bash
+npm install
+```
 
-## Content and artwork
+6. Run validation:
 
-Starter artwork uses remote image URLs for demonstration. Replace those URLs with assets you are licensed to use before production publication.
+```bash
+npm test
+npm run check
+```
 
-## Local setup
+7. Start the local Vercel runtime:
 
-1. Install Node.js 20+.
-2. Copy `.env.example` to `.env` and set `DATABASE_URL` and a strong `JWT_SECRET`.
-3. Run migrations `001` through `020` in order against PostgreSQL.
-4. Run `npm install` and `npm test`.
-5. Run with Vercel CLI using `vercel dev`, or deploy using the included `vercel.json`.
-6. The health endpoint is `/api/health`.
+```bash
+npx vercel dev
+```
 
-The first account is a normal user. Promote an administrator directly in PostgreSQL with `UPDATE users SET role='admin' WHERE email='your-admin@example.com';`.
+Then open the local URL shown by Vercel. The health endpoint is `/api/health`.
 
-## License
+## 🔐 Production checklist
 
-AnimeVerse is released under the MIT License. See `LICENSE`.
+- Set a strong, unique `JWT_SECRET`.
+- Use a managed PostgreSQL connection with TLS.
+- Replace demonstration artwork with assets you are licensed to publish.
+- Keep admin credentials out of source control.
+- Review CORS, cookie, CSP and security headers before public launch.
+- Monitor API/database errors and slow queries.
+- Keep the public catalog limited to `published=true`.
+- Add backups and a migration rollback plan for production data.
+
+## 🗺️ Roadmap
+
+### Discovery
+- [x] Search
+- [x] Genre/type filters
+- [x] Surprise Me
+- [x] Characters
+- [x] Trailers
+- [x] Gallery
+- [x] Favorites
+- [ ] Advanced multi-filter discovery
+- [ ] Seasonal calendar
+- [ ] Personalized recommendations
+
+### Community
+- [ ] User profiles
+- [ ] Ratings and reviews
+- [ ] Public collections
+- [ ] Follow/friend activity
+- [ ] Spoiler-aware discussions
+
+### Intelligence
+- [ ] Taste-based recommendation engine
+- [ ] Similar-anime graph
+- [ ] Natural-language discovery ("something calm and magical")
+- [ ] Personalized home feed
+
+### Platform
+- [x] PWA shell
+- [ ] Push notifications
+- [ ] Offline catalog snapshots
+- [ ] Analytics dashboard
+- [ ] Automated database backups
+- [ ] Observability and alerting
+
+## ⚖️ Content & licensing
+
+Anime names, characters, artwork, trailers and related intellectual property belong to their respective rights holders. AnimeVerse should only publish artwork and media that the project has permission or a valid license to use. Replace demonstration remote image URLs before production publication.
+
+## 📄 License
+
+MIT — see [LICENSE](LICENSE).
+
+---
+
+**AnimeVerse** · Discover a world. Save the feeling. ✦
