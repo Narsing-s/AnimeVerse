@@ -158,6 +158,13 @@ function initImportWorkspace(){
   loadImportedMedia();
 }
 
+function loadImportedMedia(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(IMPORT_STORE)||"[]");
+    if(saved.length)setImportStatus(saved.length+" previously imported item"+(saved.length===1?"":"s")+" are already in your local Gallery.","ok");
+  }catch{}
+}
+
 function setImportStatus(message,tone=""){const el=$("#importStatus");if(el){el.textContent=message;el.className="import-status "+tone}}
 
 async function addImportFiles(files){
@@ -249,7 +256,7 @@ async function saveImports(){
   }
   try{
     localStorage.setItem(STORE,JSON.stringify(data));
-    localStorage.setItem(IMPORT_STORE,JSON.stringify(selected.map(x=>({id:x.id,name:x.name,source:"device",imported_at:new Date(now).toISOString()}))));
+    localStorage.setItem(IMPORT_STORE,JSON.stringify(selected.map(x=>({id:x.id,name:x.name,source:x.source||"device",google_media_id:x.googleId||null,imported_at:new Date(now).toISOString()}))));
     importItems=[];
     renderImportResults();
     setImportStatus("Saved to your local AnimeVerse Gallery. Return to Gallery to see the imported artwork.","ok");
