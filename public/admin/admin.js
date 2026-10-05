@@ -37,6 +37,7 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
   b.classList.add("active");
+  if(b.dataset.kind==="import"){setMode("import");return}
   kind=b.dataset.kind;
   clear();
   render();
