@@ -101,6 +101,7 @@ $("#editor").onsubmit=e=>{
 
 $("#reset").onclick=clear;
 $("#logout").onclick=()=>location.reload();
+if(new URLSearchParams(location.search).get("mode")==="import") setTimeout(()=>document.querySelector('[data-kind="import"]')?.click(),250);
 function setMode(next){
   const importMode=next==="import";
   $("#editor").classList.toggle("hidden",importMode);
