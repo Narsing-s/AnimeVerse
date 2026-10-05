@@ -1,7 +1,10 @@
-import anime from "../data/anime.json";
-import characters from "../data/characters.json";
-import trailers from "../data/trailers.json";
-import gallery from "../data/gallery.json";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const anime = require("../data/anime.json");
+const characters = require("../data/characters.json");
+const trailers = require("../data/trailers.json");
+const gallery = require("../data/gallery.json");
 
 const clean = (value) => String(value ?? "").trim().toLowerCase();
 
