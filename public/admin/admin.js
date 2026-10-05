@@ -39,6 +39,7 @@ document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
   b.classList.add("active");
   if(b.dataset.kind==="import"){setMode("import");return}
   kind=b.dataset.kind;
+  setMode(kind);
   clear();
   render();
 });
