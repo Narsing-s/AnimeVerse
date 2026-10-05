@@ -13,16 +13,25 @@ async function load(){
       const r=await fetch("/api/content",{headers:{Accept:"application/json"}});
       if(!r.ok) throw new Error("Catalog API unavailable");
       data=await r.json();
+      if(!data?.anime?.length) throw new Error("Empty catalog");
       persist();
     }
     $("#auth").classList.add("hidden");
     $("#studio").classList.remove("hidden");
     render();
   }catch(e){
-    $("#auth").classList.remove("hidden");
-    $("#studio").classList.add("hidden");
-    const message=document.querySelector("#loginError");
-    if(message) message.textContent="Unable to load the catalog. Please refresh and try again.";
+    const seed=window.ANIMEVERSE_SEED;
+    if(seed?.anime?.length){
+      data=JSON.parse(JSON.stringify(seed));
+      persist();
+      $("#auth").classList.add("hidden");
+      $("#studio").classList.remove("hidden");
+      render();
+      return;
+    }
+    $("#auth").classList.add("hidden");
+    $("#studio").classList.remove("hidden");
+    $("#records").innerHTML="<p>Catalog is unavailable, but the local Studio is ready. Add your own content below.</p>";
   }
 }
 
