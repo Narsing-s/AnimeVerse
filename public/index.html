@@ -16,6 +16,23 @@
 <title>AnimeVerse — Discover your next world</title>
 </head>
 <body>
+<div id="loginScreen" class="login-screen">
+  <div class="login-glow login-glow-a"></div><div class="login-glow login-glow-b"></div>
+  <div class="login-card">
+    <a class="brand login-brand" href="/" aria-label="AnimeVerse"><span class="brand-mark">✦</span><span>Anime<span>Verse</span></span></a>
+    <span class="kicker">WELCOME BACK</span>
+    <h1>Enter your<br><em>anime universe.</em></h1>
+    <p>Sign in on this device to continue to AnimeVerse. Your account is stored locally in this browser.</p>
+    <form id="loginForm" class="login-form">
+      <label>Email or username<input id="loginIdentity" autocomplete="username" required placeholder="you@example.com"></label>
+      <label>Password<input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Enter your password"></label>
+      <button class="primary" type="submit">Enter AnimeVerse <span>→</span></button>
+      <div id="loginError" class="login-error" role="alert"></div>
+    </form>
+    <div class="login-note"><span>✦</span> Local-only sign-in · no password is sent to a server</div>
+  </div>
+</div>
+<div id="appShell" class="app-shell hidden">
 <div class="ambient a1"></div><div class="ambient a2"></div><div class="ambient a3"></div>
 <header class="nav">
   <a class="brand" href="#home" aria-label="AnimeVerse home"><span class="brand-mark">✦</span><span>Anime<span>Verse</span></span></a>
@@ -26,10 +43,9 @@
     <button id="searchBtn" class="icon-btn" aria-label="Search anime" title="Search (/)">⌕</button>
     <button id="favNav" class="pill-btn" aria-label="Open favorites">♡ <span>Favorites</span> <b id="favCount">0</b></button>
     <a href="/admin/" class="admin-link">Studio</a>
-    <button id="menuBtn" class="icon-btn menu-btn" aria-label="Open menu">☰</button>
+    <button id="logoutBtn" class="icon-btn" aria-label="Sign out" title="Sign out">↪</button>
   </div>
 </header>
-<div id="mobileMenu" class="mobile-menu hidden"><a href="#anime">Discover</a><a href="#characters">Characters</a><a href="#trailers">Trailers</a><a href="#gallery">Gallery</a><a href="/admin/">Content Studio</a></div>
 
 <main id="home">
 <section class="hero">
@@ -54,7 +70,7 @@
 </section>
 
 <section class="spotlight section">
-  <div class="spotlight-copy"><span class="kicker">YOUR COLLECTION</span><h2>Keep the worlds<br><em>you don't want to lose.</em></h2><p>Save favorites locally for instant access. Your collection stays on this device — no account or database required.</p><button id="collectionBtn" class="primary">Open my collection →</button></div>
+  <div class="spotlight-copy"><span class="kicker">YOUR COLLECTION</span><h2>Keep the worlds<br><em>you don't want to lose.</em></h2><p>Save favorites locally for instant access. Your collection stays on this device — no account or database required.</p><div class="collection-status"><strong>Favorites live in your header.</strong><span>Use ♡ Favorites anytime to open your saved worlds.</span></div></div>
   <div class="collection-preview"><div class="preview-ring">♡</div><div><strong id="collectionCount">0</strong><span>saved worlds</span></div><div class="preview-line"></div><small>YOUR TASTE. YOUR UNIVERSE.</small></div>
 </section>
 
@@ -77,8 +93,9 @@
 <div id="searchModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="searchTitle"><div class="modal-panel search-panel"><button class="close" id="closeSearch" aria-label="Close search">×</button><span class="kicker">SEARCH ANIMEVERSE</span><h2 id="searchTitle">What are you looking for?</h2><div class="search-wrap"><span>⌕</span><input id="searchInput" class="search-input" placeholder="Try a title, character or genre…" autocomplete="off"></div><div class="search-hint">Press <kbd>Esc</kbd> to close · <kbd>/</kbd> to search</div><div id="searchResults" class="search-results"></div></div></div>
 <div id="detailModal" class="modal hidden" role="dialog" aria-modal="true"><div class="modal-panel detail"><button class="close" id="closeDetail" aria-label="Close details">×</button><div id="detailContent"></div></div></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
-<footer><div><div class="brand"><span class="brand-mark">✦</span><span>Anime<span>Verse</span></span></div><p>Built for people who love animated worlds.</p></div><div class="footer-links"><a href="#home">Back to top ↑</a><a href="/admin/">Studio</a><span>© 2026</span></div></footer>
-<script src="/app.js"></script>
+<footer><div><div class="brand"><span class="brand-mark">✦</span><span>Anime<span>Verse</span></span></div><p>Built for people who love animated worlds.</p></div><div class="footer-links"><a href="#home">Back to top ↑</a><span>© 2026</span></div></footer>
+<script src="/auth.js"></script><script src="/app.js"></script>
 <script>if("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
+</div>
 </body>
 </html>
