@@ -99,6 +99,14 @@ $("#editor").onsubmit=e=>{
 };
 
 $("#reset").onclick=clear;
-$("#login").onsubmit=e=>{e.preventDefault();load()};
 $("#logout").onclick=()=>location.reload();
+function setMode(next){
+  const importMode=next==="import";
+  $("#editor").classList.toggle("hidden",importMode);
+  $("#records").closest(".panel").classList.toggle("hidden",importMode);
+  $("#importPanel").classList.toggle("hidden",!importMode);
+  if(importMode){
+    if(window.renderImportWorkspace){$("#importPanel").innerHTML=window.renderImportWorkspace();window.initImportWorkspace();}
+  }else{$("#importPanel").innerHTML="";}
+}
 load();
