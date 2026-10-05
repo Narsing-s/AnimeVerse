@@ -31,15 +31,127 @@ function renderImportWorkspace(){
   </div>`;
 }
 
+let googleAccessToken=null;
+let googlePickerSession=null;
+let googlePollTimer=null;
+
+async function loadGoogleIdentity(){
+  if(window.google?.accounts?.oauth2)return;
+  await new Promise((resolve,reject)=>{
+    const existing=document.querySelector("script[data-google-gis]");
+    if(existing){existing.addEventListener("load",resolve,{once:true});existing.addEventListener("error",reject,{once:true});return;}
+    const script=document.createElement("script");
+    script.src="https://accounts.google.com/gsi/client";
+    script.async=true;script.defer=true;script.dataset.googleGis="1";
+    script.onload=resolve;script.onerror=reject;document.head.appendChild(script);
+  });
+}
+
+async function getGoogleClientId(){
+  const r=await fetch("/api/google-photos-config",{headers:{Accept:"application/json"}});
+  if(!r.ok)throw new Error("Google Photos is not configured");
+  const d=await r.json();
+  if(!d.clientId)throw new Error("GOOGLE_PHOTOS_CLIENT_ID is not configured in Vercel");
+  return d.clientId;
+}
+
+async function connectGooglePhotos(){
+  const popup=window.open("about:blank","animeverse-google-photos","popup,width=480,height=760");
+  try{
+    setImportStatus("Connecting to Google Photos…");
+    const clientId=await getGoogleClientId();
+    await loadGoogleIdentity();
+    await new Promise((resolve,reject)=>{
+      const tokenClient=google.accounts.oauth2.initTokenClient({
+        client_id:clientId,
+        scope:"https://www.googleapis.com/auth/photospicker.mediaitems.readonly",
+        callback:response=>{
+          if(response.error){reject(new Error(response.error_description||response.error));return}
+          googleAccessToken=response.access_token;resolve();
+        }
+      });
+      tokenClient.requestAccessToken({prompt:"consent"});
+    });
+    const session=await googlePhotosRequest("/v1/sessions",{method:"POST",body:JSON.stringify({pickingConfig:{maxItemCount:50}})});
+    googlePickerSession=session;
+    const pickerUri=String(session.pickerUri||"").replace(/\/$/,"")+"/autoclose";
+    if(!session.pickerUri)throw new Error("Google Photos did not return a picker URL");
+    if(popup&&!popup.closed)popup.location.href=pickerUri;else window.open(pickerUri,"_blank");
+    setImportStatus("Google Photos opened. Select your anime artwork there, then return here.","ok");
+    waitForGoogleSelection(session.id,session.pollingConfig);
+  }catch(error){
+    if(popup&&!popup.closed)popup.close();
+    setImportStatus(error.message||"Google Photos connection failed.","warn");
+  }
+}
+
+async function googlePhotosRequest(path,options={}){
+  const r=await fetch("https://photospicker.googleapis.com"+path,{
+    ...options,
+    headers:{
+      Accept:"application/json",
+      "Content-Type":"application/json",
+      Authorization:"Bearer "+googleAccessToken,
+      ...(options.headers||{})
+    }
+  });
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(d.error?.message||"Google Photos request failed");
+  return d;
+}
+
+function durationMs(value,fallback=3000){
+  const m=String(value||"").match(/([0-9.]+)s/);
+  return m?Math.max(1000,Number(m[1])*1000):fallback;
+}
+
+function waitForGoogleSelection(sessionId,pollingConfig={}){
+  clearTimeout(googlePollTimer);
+  const started=Date.now(),timeout=durationMs(pollingConfig.timeoutIn,5*60*1000);
+  const poll=async()=>{
+    if(Date.now()-started>timeout){setImportStatus("Google Photos selection timed out. Start a new import when ready.","warn");return}
+    try{
+      const session=await googlePhotosRequest("/v1/sessions/"+encodeURIComponent(sessionId));
+      if(session.mediaItemsSet){
+        const items=await googlePhotosRequest("/v1/mediaItems?sessionId="+encodeURIComponent(sessionId)+"&pageSize=100");
+        await addGooglePhotosItems(items.mediaItems||[]);
+        try{await googlePhotosRequest("/v1/sessions/"+encodeURIComponent(sessionId),{method:"DELETE"})}catch{}
+        return;
+      }
+      googlePollTimer=setTimeout(poll,durationMs(session.pollingConfig?.pollInterval||pollingConfig.pollInterval,3000));
+    }catch(error){setImportStatus(error.message||"Unable to read the Google Photos selection.","warn")}
+  };
+  poll();
+}
+
+async function addGooglePhotosItems(mediaItems){
+  if(!mediaItems.length){setImportStatus("No Google Photos items were selected.","warn");return}
+  setImportStatus("Importing "+mediaItems.length+" Google Photos item"+(mediaItems.length===1?"":"s")+"…");
+  for(const item of mediaItems){
+    try{
+      const media=item.mediaFile||{},baseUrl=media.baseUrl;
+      if(!baseUrl)continue;
+      const r=await fetch(baseUrl+"=w1200",{headers:{Authorization:"Bearer "+googleAccessToken}});
+      if(!r.ok)continue;
+      const blob=await r.blob();
+      const ext=(blob.type.split("/")[1]||"jpg").replace("jpeg","jpg");
+      const file=new File([blob],(media.filename||"google-photo")+"."+ext,{type:blob.type||"image/jpeg"});
+      const image=await resizeImage(file,1200,0.78);
+      const match=await smartMatch(media.filename||item.id||"google-photo");
+      importItems.push({id:"google-"+item.id,name:media.filename||"Google Photos",image,...match,selected:true,source:"google-photos",googleId:item.id});
+    }catch{}
+  }
+  renderImportResults();
+  setImportStatus(importItems.length+" image"+(importItems.length===1?"":"s")+" ready for review.","ok");
+}
+
 function initImportWorkspace(){
   importItems=[];
   const zone=document.querySelector("#dropzone"),picker=document.querySelector("#mediaPicker");
   if(!zone||!picker)return;
   $("#deviceImport").onclick=()=>picker.click();
   picker.onchange=e=>addImportFiles([...e.target.files]);
-  $("#googleImport").onclick=()=>{
-    setImportStatus("Google Photos is protected by OAuth. Add the Google Photos Picker credentials to enable secure selection.", "warn");
-  };
+  $("#googleImport").onclick=connectGooglePhotos;
   ["dragenter","dragover"].forEach(type=>zone.addEventListener(type,e=>{e.preventDefault();zone.classList.add("drag")}));
   ["dragleave","drop"].forEach(type=>zone.addEventListener(type,e=>{e.preventDefault();zone.classList.remove("drag")}));
   zone.addEventListener("drop",e=>addImportFiles([...e.dataTransfer.files].filter(f=>f.type.startsWith("image/"))));
@@ -133,7 +245,7 @@ async function saveImports(){
   try{data=JSON.parse(localStorage.getItem(STORE)||"null")||data}catch{}
   const now=Date.now();
   for(const x of selected){
-    data.gallery.unshift({id:"imported-"+x.id,title:x.anime?.title||x.character?.name||x.name.replace(/\.[^.]+$/,""),image:x.image,description:[x.anime?.title,x.character?.name].filter(Boolean).join(" · ")||"Imported from device",source:"device",imported_at:new Date(now).toISOString(),ai_status:x.status,confidence:x.confidence||0});
+    data.gallery.unshift({id:"imported-"+x.id,title:x.anime?.title||x.character?.name||x.name.replace(/\.[^.]+$/,""),image:x.image,description:[x.anime?.title,x.character?.name].filter(Boolean).join(" · ")||"Imported from device",source:x.source||"device",imported_at:new Date(now).toISOString(),ai_status:x.status,confidence:x.confidence||0});
   }
   try{
     localStorage.setItem(STORE,JSON.stringify(data));
